@@ -1,12 +1,17 @@
-﻿using System;
+﻿using EndpointManager.Controllers;
+using EndpointManager.Models;
+using EndpointManager.Views;
+using System;
 
 namespace EndpointManager
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu menu = new Menu();
+
+            menu.ShowMenu();
         }
     }
 }
