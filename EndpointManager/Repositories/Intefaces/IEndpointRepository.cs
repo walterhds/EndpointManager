@@ -12,7 +12,7 @@ namespace EndpointManager.Repositories.Intefaces
     {
         bool Create(Endpoint endpoint);
         bool Edit(Endpoint endpoint);
-        bool Delete(int endpoint);
+        bool Delete(string endpoint);
         IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter);
         bool HasEndPoint(Func<Endpoint, bool> filter);
     }

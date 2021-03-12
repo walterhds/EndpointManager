@@ -26,14 +26,36 @@ namespace EndpointManager.Repositories
             }
         }
 
-        public bool Delete(int endpoint)
+        public bool Delete(string serialNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var endpoint = GetEndpoints(x => x.EndpointSerialNumber == serialNumber).FirstOrDefault();
+                Program._dbContext.endpoints.Remove(endpoint);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Edit(Endpoint endpoint)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var oldEndpoint = Program._dbContext.endpoints.Where(x => x.EndpointSerialNumber == endpoint.EndpointSerialNumber).FirstOrDefault();
+
+                oldEndpoint = endpoint;
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter)

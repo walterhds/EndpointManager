@@ -19,6 +19,8 @@ namespace EndpointManager.Controllers
 
         public List<EndpointState> GetAllEndpointStates() => _endpointStateRepository.GetEndpointStates(null).ToList();
 
+        public EndpointState GetEndpointState(int id) => _endpointStateRepository.GetEndpointStates(x => x.EndpointStateId == id).FirstOrDefault();
+
         public bool IsValidState(int endpointStateId) => _endpointStateRepository.HasState(x => x.EndpointStateId == endpointStateId);
     }
 }

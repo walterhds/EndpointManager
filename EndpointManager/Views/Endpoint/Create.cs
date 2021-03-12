@@ -33,14 +33,13 @@ namespace EndpointManager.Views.Endpoint
             Console.WriteLine("Write a serial number:");
             endpoint.EndpointSerialNumber = Console.ReadLine();
 
-
             var meters = _meterController.GetAllMeters();
 
             while (!isValidMeterModel)
             {
                 ShowError();
 
-                Console.WriteLine("\n\nChoose one meter model:");
+                Console.WriteLine("\nChoose one meter model:");
 
                 foreach(var meter in meters)
                 {
@@ -62,7 +61,7 @@ namespace EndpointManager.Views.Endpoint
             while (!isValidMeterNumber)
             {
                 ShowError();
-                Console.WriteLine("\n\nWrite the number of Meter:");
+                Console.WriteLine("\nWrite the number of Meter:");
 
                 try
                 {
@@ -76,7 +75,7 @@ namespace EndpointManager.Views.Endpoint
                 }
             }
 
-            Console.WriteLine("\n\nWrite the Meter Firmware Version:");
+            Console.WriteLine("\nWrite the Meter Firmware Version:");
             endpoint.MeterFirmwareVersion = Console.ReadLine();
 
             var states = _endpointStateController.GetAllEndpointStates();
@@ -85,7 +84,7 @@ namespace EndpointManager.Views.Endpoint
             {
                 ShowError();
 
-                Console.WriteLine("\n\n");
+                Console.WriteLine("\n");
 
                 foreach (var state in states)
                 {
@@ -129,7 +128,7 @@ namespace EndpointManager.Views.Endpoint
         {
             Console.WriteLine("======================");
             Console.WriteLine("Endpoint Create Screen");
-            Console.WriteLine("======================\n\n");
+            Console.WriteLine("======================\n");
         }
 
         private void ShowError()
