@@ -12,10 +12,14 @@ namespace EndpointManager.Controllers
     public class EndpointController : EndpointError
     {
         private readonly EndpointRepository _endpointRepository;
+        private readonly MeterController _meterController;
+        private readonly EndpointStateController _endpointStateController;
 
         public EndpointController()
         {
             _endpointRepository = new EndpointRepository();
+            _meterController = new MeterController();
+            _endpointStateController = new EndpointStateController();
         }
 
         public bool Create(Endpoint endpoint)
@@ -26,8 +30,14 @@ namespace EndpointManager.Controllers
                     throw new ArgumentNullException(propertie.Name);
             }
 
-            if (!IsValidSerialNumber(endpoint.EndpointSerialNumber))
+            if (IsValidSerialNumber(endpoint.EndpointSerialNumber))
                 throw new ArgumentException(SerialNumberAlreadyRegistred);
+
+            if (!_meterController.IsValidMeter(endpoint.MeterModelId))
+                throw new KeyNotFoundException(MeterModelNotFound);
+
+            if (!_endpointStateController.IsValidState(endpoint.EndpointStateId))
+                throw new KeyNotFoundException(StateNotFound);
 
             try
             {
@@ -40,9 +50,6 @@ namespace EndpointManager.Controllers
             }
         }
 
-        public bool IsValidSerialNumber(string serialNumber)
-        {
-            return _endpointRepository.GetEndpoints(e => e.EndpointSerialNumber == serialNumber).Any();
-        }
+        public bool IsValidSerialNumber(string serialNumber) => _endpointRepository.HasEndPoint(e => e.EndpointSerialNumber == serialNumber);        
     }
 }

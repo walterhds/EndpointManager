@@ -11,6 +11,12 @@ namespace EndpointManager.Views
         private static Endpoint.Create createView = new Endpoint.Create();
         public void ShowMenu()
         {
+            Console.Clear();
+            if (Program.message != "")
+            {
+                Console.WriteLine(Program.message + "\n\n");
+            }
+
             Console.WriteLine("Please, choose one option:");
             Console.WriteLine(" 1- Insert a new endpoint;");
             Console.WriteLine(" 2- Edit an existing endpoint;");
@@ -24,7 +30,15 @@ namespace EndpointManager.Views
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
-                    createView.CreateEndpoint();
+                    try
+                    {
+                        createView.CreateEndpoint();
+                    }
+                    catch (Exception e)
+                    {
+                        Program.message = e.Message;
+                        ShowMenu();
+                    }
 
                     break;
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndpointManager.Data
 {
-    internal class DbContext
+    public class DbContext
     {
         public readonly List<Meter> meters;
         public readonly List<EndpointState> endpointStates;

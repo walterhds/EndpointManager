@@ -11,18 +11,12 @@ using System.Threading.Tasks;
 namespace EndpointManager.Repositories
 {
     public class EndpointRepository : IEndpointRepository
-    {
-        private readonly DbContext _dbContext;
-
-        public EndpointRepository()
-        {
-            _dbContext = new DbContext();
-        }
+    {        
         public bool Create(Endpoint endpoint)
         {
             try
             {
-                _dbContext.endpoints.Add(endpoint);
+                Program._dbContext.endpoints.Add(endpoint);
 
                 return true;
             }
@@ -44,7 +38,26 @@ namespace EndpointManager.Repositories
 
         public IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter)
         {
-            return _dbContext.endpoints.Where(filter).DefaultIfEmpty() ?? new List<Endpoint>();
+            if (filter == null)
+            {
+                return Program._dbContext.endpoints.DefaultIfEmpty() ?? new List<Endpoint>();
+            }
+            else
+            {
+                return Program._dbContext.endpoints.Where(filter).DefaultIfEmpty() ?? new List<Endpoint>();
+            }
+        }
+
+        public bool HasEndPoint(Func<Endpoint, bool> filter)
+        {
+            if (filter == null)
+            {
+                return Program._dbContext.endpoints.Any();
+            }
+            else
+            {
+                return Program._dbContext.endpoints.Any(filter);
+            }
         }
     }
 }

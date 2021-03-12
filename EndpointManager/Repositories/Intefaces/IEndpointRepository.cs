@@ -14,5 +14,6 @@ namespace EndpointManager.Repositories.Intefaces
         bool Edit(Endpoint endpoint);
         bool Delete(int endpoint);
         IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter);
+        bool HasEndPoint(Func<Endpoint, bool> filter);
     }
 }
