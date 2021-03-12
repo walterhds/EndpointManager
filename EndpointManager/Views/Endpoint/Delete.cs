@@ -12,14 +12,12 @@ namespace EndpointManager.Views.Endpoint
     {
         private readonly MeterController _meterController;
         private readonly EndpointStateController _endpointStateController;
-        private readonly Menu _menu;
         private string error = "";
 
         public Delete()
         {
             _meterController = new MeterController();
             _endpointStateController = new EndpointStateController();
-            _menu = new Menu();
         }
 
         public void DeleteEndpoint(string serialNumber)
@@ -34,10 +32,9 @@ namespace EndpointManager.Views.Endpoint
             ShowError();
 
             Console.WriteLine("\nAre you sure you want to delete this endpoint?(y/n): ");
+
             if (Console.ReadKey().Key == ConsoleKey.Y)
-            {
-                _endpointController.
-            }
+                _endpointController.Delete(serialNumber);
         }
 
         private void ShowHeader()

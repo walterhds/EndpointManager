@@ -11,8 +11,8 @@ namespace EndpointManager.Repositories.Intefaces
     internal interface IEndpointRepository
     {
         bool Create(Endpoint endpoint);
-        bool Edit(Endpoint endpoint);
-        bool Delete(string endpoint);
+        bool Edit(string serialNumber, int endpointState);
+        bool Delete(string serialNumber);
         IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter);
         bool HasEndPoint(Func<Endpoint, bool> filter);
     }

@@ -11,12 +11,15 @@ namespace EndpointManager.Views
         private static Endpoint.Create createView = new Endpoint.Create();
         private static Endpoint.FilterSerialNumber filterSerialNumber = new Endpoint.FilterSerialNumber();
         private static Endpoint.Edit editView = new Endpoint.Edit();
+        private static Endpoint.Delete deleteView = new Endpoint.Delete();
+        private static Endpoint.List listView = new Endpoint.List();
         public void ShowMenu()
         {
             Console.Clear();
             if (Program.message != "")
             {
                 Console.WriteLine(Program.message + "\n\n");
+                Program.message = "";
             }
 
             Console.WriteLine("Please, choose one option:");
@@ -39,7 +42,6 @@ namespace EndpointManager.Views
                     catch (Exception e)
                     {
                         Program.message = e.Message;
-                        ShowMenu();
                     }
 
                     break;
@@ -55,7 +57,6 @@ namespace EndpointManager.Views
                     catch (Exception e)
                     {
                         Program.message = e.Message;
-                        ShowMenu();
                     }
 
                     break;
@@ -64,17 +65,30 @@ namespace EndpointManager.Views
                     try
                     {
                         string serialNumber = filterSerialNumber.Filter();
-                        editView.EditEndpoint(serialNumber);
+                        deleteView.DeleteEndpoint(serialNumber);
 
                     }
                     catch (Exception e)
                     {
                         Program.message = e.Message;
-                        ShowMenu();
+                    }
+
+                    break;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
+                    try
+                    {
+                        listView.ListEndpoint();
+                    }
+                    catch (Exception e)
+                    {
+                        Program.message = e.Message;
                     }
 
                     break;
             }
+
+            ShowMenu();
         }
     }
 }

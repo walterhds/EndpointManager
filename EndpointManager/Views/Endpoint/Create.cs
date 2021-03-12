@@ -11,13 +11,11 @@ namespace EndpointManager.Views.Endpoint
     {
         private readonly MeterController _meterController;
         private readonly EndpointStateController _endpointStateController;
-        private readonly Menu _menu; 
         private string error = "";
         public Create()
         {
             _meterController = new MeterController();
             _endpointStateController = new EndpointStateController();
-            _menu = new Menu();
         }
         public void CreateEndpoint()
         {
@@ -26,12 +24,13 @@ namespace EndpointManager.Views.Endpoint
             var isValidMeterNumber = false;
             var isValidEndpointState = false;
             var menu = new Menu();
-            Console.Clear();
 
-            ShowHeader();
-
-            Console.WriteLine("Write a serial number:");
-            endpoint.EndpointSerialNumber = Console.ReadLine();
+            while (String.IsNullOrEmpty(endpoint.EndpointSerialNumber))
+            {
+                ShowHeader();
+                Console.WriteLine("Write a serial number:");
+                endpoint.EndpointSerialNumber = Console.ReadLine();
+            }
 
             var meters = _meterController.GetAllMeters();
 
@@ -41,7 +40,7 @@ namespace EndpointManager.Views.Endpoint
 
                 Console.WriteLine("\nChoose one meter model:");
 
-                foreach(var meter in meters)
+                foreach (var meter in meters)
                 {
                     Console.WriteLine(meter.MeterModelID + " - " + meter.MeterModel);
                 }
@@ -75,8 +74,11 @@ namespace EndpointManager.Views.Endpoint
                 }
             }
 
-            Console.WriteLine("\nWrite the Meter Firmware Version:");
-            endpoint.MeterFirmwareVersion = Console.ReadLine();
+            while (String.IsNullOrEmpty(endpoint.MeterFirmwareVersion))
+            {
+                Console.WriteLine("\nWrite the Meter Firmware Version:");
+                endpoint.MeterFirmwareVersion = Console.ReadLine();
+            }
 
             var states = _endpointStateController.GetAllEndpointStates();
 
@@ -106,7 +108,6 @@ namespace EndpointManager.Views.Endpoint
             try
             {
                 _endpointController.Create(endpoint);
-                menu.ShowMenu();
             }
             catch (ArgumentNullException e)
             {
@@ -120,12 +121,11 @@ namespace EndpointManager.Views.Endpoint
             {
                 Program.message = e.Message;
             }
-
-            _menu.ShowMenu();
         }
 
         private void ShowHeader()
         {
+            Console.Clear();
             Console.WriteLine("======================");
             Console.WriteLine("Endpoint Create Screen");
             Console.WriteLine("======================\n");

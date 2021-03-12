@@ -26,17 +26,22 @@ namespace EndpointManager.Views.Endpoint
         public string Filter()
         {
             var endpoint = new Models.Endpoint();
+            var isValidSerialNumber = false;
             Console.Clear();
 
-            ShowError();
-
-            Console.WriteLine("\nWrite the serial number you want to edit.");
-            endpoint.EndpointSerialNumber = Console.ReadLine();
-
-            if (!_endpointController.IsValidSerialNumber(endpoint.EndpointSerialNumber))
+            while (!isValidSerialNumber)
             {
-                error = SerialNumberNotFound;
-                Filter();
+                isValidSerialNumber = true;
+                ShowError();
+
+                Console.WriteLine("\nWrite the serial number you want to manipulate.");
+                endpoint.EndpointSerialNumber = Console.ReadLine();
+
+                if (!_endpointController.IsValidSerialNumber(endpoint.EndpointSerialNumber))
+                {
+                    error = SerialNumberNotFound;
+                    isValidSerialNumber = false;
+                }
             }
 
             return endpoint.EndpointSerialNumber;

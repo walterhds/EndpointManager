@@ -12,14 +12,12 @@ namespace EndpointManager.Views.Endpoint
     {
         private readonly MeterController _meterController;
         private readonly EndpointStateController _endpointStateController;
-        private readonly Menu _menu;
         private string error = "";
 
         public Edit()
         {
             _meterController = new MeterController();
             _endpointStateController = new EndpointStateController();
-            _menu = new Menu();
         }
 
         public void EditEndpoint(string serialNumber)
@@ -48,11 +46,10 @@ namespace EndpointManager.Views.Endpoint
             Console.WriteLine("Write the code of state you want:");
             try
             {
-                endpoint.EndpointStateId = Convert.ToInt32(Console.ReadLine());
-                _endpointController.Update(endpoint);
+                int stateId = Convert.ToInt32(Console.ReadLine());
+                _endpointController.Update(serialNumber, stateId);
 
                 Program.message = "The update of endpoint was succeeded.";
-                _menu.ShowMenu();
             }
             catch (Exception)
             {

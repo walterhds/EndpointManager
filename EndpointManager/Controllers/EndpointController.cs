@@ -50,27 +50,28 @@ namespace EndpointManager.Controllers
             }
         }
 
-        public bool Update(Endpoint endpoint)
-        {
-            return _endpointRepository.Edit(endpoint);
-        }
+        public bool Update(string serialNumber, int endpointState) => _endpointRepository.Edit(serialNumber, endpointState);
 
-        public bool Delete(string serialNumber)
-        {
-            Program._dbContext.endpoints.Remove()
-        }
+        public bool Delete(string serialNumber) => _endpointRepository.Delete(serialNumber);
 
         public bool IsValidSerialNumber(string serialNumber) => _endpointRepository.HasEndPoint(e => e.EndpointSerialNumber == serialNumber);        
 
         public List<Endpoint> GetEndpoints(Func<Endpoint, bool> filter)
         {
-            if (filter == null)
+            try
             {
-                return _endpointRepository.GetEndpoints(null).ToList();
+                if (filter == null)
+                {
+                    return _endpointRepository.GetEndpoints(null).ToList();
+                }
+                else
+                {
+                    return _endpointRepository.GetEndpoints(filter).ToList();
+                }
             }
-            else
+            catch (NullReferenceException)
             {
-                return _endpointRepository.GetEndpoints(filter).ToList();
+                throw;
             }
         }
     }

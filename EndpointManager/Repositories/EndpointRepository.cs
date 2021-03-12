@@ -41,13 +41,13 @@ namespace EndpointManager.Repositories
             }
         }
 
-        public bool Edit(Endpoint endpoint)
+        public bool Edit(string serialNumber, int endpointState)
         {
             try
             {
-                var oldEndpoint = Program._dbContext.endpoints.Where(x => x.EndpointSerialNumber == endpoint.EndpointSerialNumber).FirstOrDefault();
+                var endpoint = Program._dbContext.endpoints.Where(x => x.EndpointSerialNumber == serialNumber).FirstOrDefault();
 
-                oldEndpoint = endpoint;
+                endpoint.EndpointStateId = endpointState;
 
                 return true;
             }
@@ -60,13 +60,20 @@ namespace EndpointManager.Repositories
 
         public IEnumerable<Endpoint> GetEndpoints(Func<Endpoint, bool> filter)
         {
-            if (filter == null)
+            try
             {
-                return Program._dbContext.endpoints.DefaultIfEmpty() ?? new List<Endpoint>();
+                if (filter == null)
+                {
+                    return Program._dbContext.endpoints;
+                }
+                else
+                {
+                    return Program._dbContext.endpoints.Where(filter);
+                }
             }
-            else
+            catch (NullReferenceException)
             {
-                return Program._dbContext.endpoints.Where(filter).DefaultIfEmpty() ?? new List<Endpoint>();
+                throw;
             }
         }
 
