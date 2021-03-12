@@ -13,5 +13,6 @@ namespace EndpointManager.AuxiliarModels
         public const string MeterModelNotFound = "Meter model not found.";
         public const string StateNotFound = "State not found.";
         public const string EmptyEndpoint = "The list of endpoint is empty.";
+        public const string EndpointNotFound = "The endpoint was not found.";
     }
 }

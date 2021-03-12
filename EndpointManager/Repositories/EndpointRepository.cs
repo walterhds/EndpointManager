@@ -62,14 +62,20 @@ namespace EndpointManager.Repositories
         {
             try
             {
+                if (Program._dbContext.endpoints.Count == 0)
+                    throw new NullReferenceException();
+
+                var list = new List<Endpoint>();
+
                 if (filter == null)
-                {
-                    return Program._dbContext.endpoints;
-                }
+                    list = Program._dbContext.endpoints;
                 else
-                {
-                    return Program._dbContext.endpoints.Where(filter);
-                }
+                    list = Program._dbContext.endpoints.Where(filter).ToList();
+
+                if (list.Count == 0)
+                    throw new KeyNotFoundException();
+
+                return list;
             }
             catch (NullReferenceException)
             {

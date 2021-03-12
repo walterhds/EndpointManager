@@ -69,6 +69,10 @@ namespace EndpointManager.Controllers
                     return _endpointRepository.GetEndpoints(filter).ToList();
                 }
             }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
             catch (NullReferenceException)
             {
                 throw;

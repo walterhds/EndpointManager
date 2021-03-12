@@ -14,6 +14,7 @@ namespace EndpointManager.Views.Endpoint
             try
             {
                 var endpoints = new List<Models.Endpoint>();
+
                 if (String.IsNullOrEmpty(serialNumber))
                     endpoints = _endpointController.GetEndpoints(null);
                 else
@@ -21,31 +22,28 @@ namespace EndpointManager.Views.Endpoint
 
                 ShowHeader();
 
-                if (endpoints.Count > 0)
+                foreach (var endpoint in endpoints)
                 {
-                    foreach (var endpoint in endpoints)
+                    foreach (var propertie in endpoint.GetType().GetProperties())
                     {
-                        foreach (var propertie in endpoint.GetType().GetProperties())
-                        {
-                            Console.WriteLine(propertie.Name + ": " + propertie.GetValue(endpoint));
-                        }
-
-                        Console.WriteLine("\n=============================\n");
+                        Console.WriteLine(propertie.Name + ": " + propertie.GetValue(endpoint));
                     }
 
-                    Console.WriteLine("Press any key to back to menu.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Program.message = EmptyEndpoint;
+                    Console.WriteLine("\n=============================\n");
                 }
 
+                Console.WriteLine("Press any key to back to menu.");
+                Console.ReadKey();
+
+            }
+            catch (KeyNotFoundException)
+            {
+                Program.message = EndpointNotFound;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(EmptyEndpoint);
-            }            
+                Program.message = EmptyEndpoint;
+            }
         }
 
         private void ShowHeader()
