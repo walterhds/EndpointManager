@@ -50,7 +50,13 @@ namespace EndpointManager.Controllers
             }
         }
 
-        public bool Update(string serialNumber, int endpointState) => _endpointRepository.Edit(serialNumber, endpointState);
+        public bool Update(string serialNumber, int endpointState)
+        {
+            if (!_endpointStateController.IsValidState(endpointState))
+                throw new KeyNotFoundException(StateNotFound);
+
+            return _endpointRepository.Edit(serialNumber, endpointState);
+        }
 
         public bool Delete(string serialNumber) => _endpointRepository.Delete(serialNumber);
 

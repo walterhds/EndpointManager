@@ -9,6 +9,7 @@ namespace EnpointManagerTests
     [TestClass]
     public class EditEndpoint
     {
+<<<<<<< HEAD
         [TestMethod]
         public void UpdateEndpointWithInvalidStateId()
         {
@@ -50,5 +51,7 @@ namespace EnpointManagerTests
 
             Assert.Fail();
         }
+=======
+>>>>>>> master
     }
 }
