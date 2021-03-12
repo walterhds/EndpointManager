@@ -10,7 +10,7 @@ namespace EndpointManager.Views
 {
     public abstract class BaseViewModel : EndpointError
     {
-        public readonly EndpointController _endpointController;
+        protected readonly EndpointController _endpointController;
 
         public BaseViewModel()
         {

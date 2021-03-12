@@ -9,27 +9,36 @@ namespace EndpointManager.Views.Endpoint
 {
     public class List : BaseViewModel
     {
-        public void ListEndpoint()
+        public void ListEndpoint(string serialNumber)
         {
             try
             {
-                var endpoints = _endpointController.GetEndpoints(null);
+                var endpoints = new List<Models.Endpoint>();
+                if (String.IsNullOrEmpty(serialNumber))
+                    endpoints = _endpointController.GetEndpoints(null);
+                else
+                    endpoints = _endpointController.GetEndpoints(x => x.EndpointSerialNumber == serialNumber);
 
-                Console.Clear();
+                ShowHeader();
 
-                if (endpoints.Count == 0)
-                    Program.message = EmptyEndpoint;
-
-                foreach (var endpoint in endpoints)
+                if (endpoints.Count > 0)
                 {
-                    foreach (var propertie in endpoint.GetType().GetProperties())
+                    foreach (var endpoint in endpoints)
                     {
-                        Console.WriteLine(propertie.Name + ": " + propertie.GetValue(endpoint));
+                        foreach (var propertie in endpoint.GetType().GetProperties())
+                        {
+                            Console.WriteLine(propertie.Name + ": " + propertie.GetValue(endpoint));
+                        }
+
+                        Console.WriteLine("\n=============================\n");
                     }
 
-                    Console.WriteLine("\n=============================\n");
                     Console.WriteLine("Press any key to back to menu.");
                     Console.ReadKey();
+                }
+                else
+                {
+                    Program.message = EmptyEndpoint;
                 }
 
             }
@@ -41,6 +50,7 @@ namespace EndpointManager.Views.Endpoint
 
         private void ShowHeader()
         {
+            Console.Clear();
             Console.WriteLine("====================");
             Console.WriteLine("Endpoint List Screen");
             Console.WriteLine("====================\n\n");

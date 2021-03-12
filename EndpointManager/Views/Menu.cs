@@ -13,6 +13,7 @@ namespace EndpointManager.Views
         private static Endpoint.Edit editView = new Endpoint.Edit();
         private static Endpoint.Delete deleteView = new Endpoint.Delete();
         private static Endpoint.List listView = new Endpoint.List();
+        private static ConfirmExit exitView = new ConfirmExit();
         public void ShowMenu()
         {
             Console.Clear();
@@ -27,7 +28,7 @@ namespace EndpointManager.Views
             Console.WriteLine(" 2- Edit an existing endpoint;");
             Console.WriteLine(" 3- Delete an existing endpoint;");
             Console.WriteLine(" 4- List all endpoints;");
-            Console.WriteLine(" 5- Find a Endpoint by \"Endpoint Serial Number\";");
+            Console.WriteLine(" 5- Find an Endpoint by \"Endpoint Serial Number\";");
             Console.WriteLine(" 6- Exit;");
             var choise = Console.ReadKey();
 
@@ -78,7 +79,32 @@ namespace EndpointManager.Views
                 case ConsoleKey.NumPad4:
                     try
                     {
-                        listView.ListEndpoint();
+                        listView.ListEndpoint(null);
+                    }
+                    catch (Exception e)
+                    {
+                        Program.message = e.Message;
+                    }
+
+                    break;
+                case ConsoleKey.D5:
+                case ConsoleKey.NumPad5:
+                    try
+                    {
+                        var serialNumber = filterSerialNumber.Filter();
+                        listView.ListEndpoint(serialNumber);
+                    }
+                    catch (Exception e)
+                    {
+                        Program.message = e.Message;
+                    }
+
+                    break;
+                case ConsoleKey.D6:
+                case ConsoleKey.NumPad6:
+                    try
+                    {
+                        exitView.Confirm();
                     }
                     catch (Exception e)
                     {
